@@ -6,21 +6,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "build:dev": "eas build --profile development --platform all",
-    "build:dev:ios": "eas build --profile development --platform ios",
-    "build:dev:android": "eas build --profile development --platform android",
-    "build:preview": "eas build --profile preview --platform all",
-    "build:prod": "eas build --profile production --platform all",
-    "build:prod:ios": "eas build --profile production --platform ios",
-    "build:prod:android": "eas build --profile production --platform android",
-    "submit:ios": "eas submit --profile production --platform ios",
-    "submit:android": "eas submit --profile production --platform android",
-    "submit:all": "eas submit --profile production --platform all",
-    "update:prod": "eas update --branch production --message 'Bug fixes and improvements'",
-    "build:status": "eas build:list --limit 10"
+    "web": "expo start --web"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
