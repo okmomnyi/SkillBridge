@@ -345,8 +345,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 32,
   },
-});
-
   userCard: {
     flexDirection: 'row',
     padding: 16,
@@ -379,3 +377,4 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 12,
   },
+});
