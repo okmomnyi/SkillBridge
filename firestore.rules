@@ -1,0 +1,190 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isParticipant(participants) {
+      return isAuthenticated() && request.auth.uid in participants;
+    }
+    
+    function isValidString(value, minLen, maxLen) {
+      return value is string && value.size() >= minLen && value.size() <= maxLen;
+    }
+    
+    function isValidArray(value, minLen, maxLen) {
+      return value is list && value.size() >= minLen && value.size() <= maxLen;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Read: Authenticated users only
+      allow read: if isAuthenticated();
+      
+      // Create: Own document only, with validated initial values
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.rating == 0
+        && request.resource.data.reviewCount == 0
+        && request.resource.data.points == 0
+        && request.resource.data.sessionsCompleted == 0
+        && isValidString(request.resource.data.displayName, 2, 50)
+        && isValidString(request.resource.data.bio, 0, 500)
+        && isValidArray(request.resource.data.skillsToTeach, 1, 10)
+        && isValidArray(request.resource.data.skillsToLearn, 1, 10)
+        && request.resource.data.year >= 1
+        && request.resource.data.year <= 4;
+      
+      // Update: Own document only, protected fields cannot be modified
+      allow update: if isOwner(userId)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.rating == resource.data.rating
+        && request.resource.data.reviewCount == resource.data.reviewCount
+        && request.resource.data.sessionsCompleted == resource.data.sessionsCompleted
+        && request.resource.data.points == resource.data.points
+        && request.resource.data.createdAt == resource.data.createdAt
+        && isValidString(request.resource.data.displayName, 2, 50)
+        && isValidString(request.resource.data.bio, 0, 500)
+        && isValidArray(request.resource.data.skillsToTeach, 1, 10)
+        && isValidArray(request.resource.data.skillsToLearn, 1, 10)
+        && request.resource.data.year >= 1
+        && request.resource.data.year <= 4;
+      
+      // Delete: Own document only
+      allow delete: if isOwner(userId);
+    }
+    
+    // Skill posts collection
+    match /skillPosts/{postId} {
+      // Read: Authenticated users only
+      allow read: if isAuthenticated();
+      
+      // Create: Authenticated users, userId must match auth UID
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.viewCount == 0
+        && request.resource.data.matchCount == 0
+        && isValidString(request.resource.data.title, 10, 100)
+        && isValidString(request.resource.data.description, 50, 1000)
+        && isValidString(request.resource.data.availability, 10, 1000)
+        && isValidArray(request.resource.data.skills, 1, 5)
+        && request.resource.data.type in ['teach', 'learn']
+        && request.resource.data.level in ['beginner', 'intermediate', 'advanced']
+        && request.resource.data.format in ['in-person', 'online', 'both']
+        && request.resource.data.category in ['programming', 'design', 'languages', 'music', 'sports', 'cooking', 'academic', 'other'];
+      
+      // Update: Owner only (userId matches auth UID)
+      allow update: if isAuthenticated()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && isValidString(request.resource.data.title, 10, 100)
+        && isValidString(request.resource.data.description, 50, 1000)
+        && isValidString(request.resource.data.availability, 10, 1000)
+        && isValidArray(request.resource.data.skills, 1, 5)
+        && request.resource.data.type in ['teach', 'learn']
+        && request.resource.data.level in ['beginner', 'intermediate', 'advanced']
+        && request.resource.data.format in ['in-person', 'online', 'both']
+        && request.resource.data.category in ['programming', 'design', 'languages', 'music', 'sports', 'cooking', 'academic', 'other'];
+      
+      // Delete: Owner only
+      allow delete: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Conversations collection
+    match /conversations/{conversationId} {
+      // Read: Participants only
+      allow read: if isAuthenticated()
+        && isParticipant(resource.data.participants);
+      
+      // Create: Authenticated users, exactly 2 participants, user must be one of them
+      allow create: if isAuthenticated()
+        && request.resource.data.participants.size() == 2
+        && isParticipant(request.resource.data.participants);
+      
+      // Update: Participants only
+      allow update: if isAuthenticated()
+        && isParticipant(resource.data.participants);
+      
+      // Delete: Participants only
+      allow delete: if isAuthenticated()
+        && isParticipant(resource.data.participants);
+      
+      // Messages subcollection
+      match /messages/{messageId} {
+        // Read: Conversation participants only
+        allow read: if isAuthenticated()
+          && isParticipant(get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants);
+        
+        // Create: Conversation participants only, senderId must match auth UID
+        allow create: if isAuthenticated()
+          && isParticipant(get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants)
+          && request.resource.data.senderId == request.auth.uid
+          && isValidString(request.resource.data.text, 1, 1000)
+          && request.resource.data.type in ['text', 'system'];
+        
+        // Update: Not allowed (messages are immutable)
+        allow update: if false;
+        
+        // Delete: Not allowed
+        allow delete: if false;
+      }
+    }
+    
+    // Reviews collection
+    match /reviews/{reviewId} {
+      // Read: Authenticated users only
+      allow read: if isAuthenticated();
+      
+      // Create: Authenticated users, with validation
+      allow create: if isAuthenticated()
+        && request.resource.data.reviewerId == request.auth.uid
+        && request.resource.data.reviewerId != request.resource.data.revieweeId
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.rating is int
+        && isValidString(request.resource.data.comment, 0, 500)
+        && isValidArray(request.resource.data.skills, 1, 10)
+        && exists(/databases/$(database)/documents/sessions/$(request.resource.data.sessionId))
+        && get(/databases/$(database)/documents/sessions/$(request.resource.data.sessionId)).data.status == 'completed'
+        && isParticipant(get(/databases/$(database)/documents/sessions/$(request.resource.data.sessionId)).data.participants);
+      
+      // Update: Not allowed (reviews are immutable)
+      allow update: if false;
+      
+      // Delete: Not allowed
+      allow delete: if false;
+    }
+    
+    // Sessions collection
+    match /sessions/{sessionId} {
+      // Read: Participants only
+      allow read: if isAuthenticated()
+        && isParticipant(resource.data.participants);
+      
+      // Create: Authenticated users, must include self in participants
+      allow create: if isAuthenticated()
+        && request.resource.data.participants.size() >= 2
+        && isParticipant(request.resource.data.participants)
+        && request.resource.data.status in ['scheduled', 'completed', 'cancelled'];
+      
+      // Update: Participants only
+      allow update: if isAuthenticated()
+        && isParticipant(resource.data.participants)
+        && request.resource.data.status in ['scheduled', 'completed', 'cancelled'];
+      
+      // Delete: Participants only
+      allow delete: if isAuthenticated()
+        && isParticipant(resource.data.participants);
+    }
+  }
+}

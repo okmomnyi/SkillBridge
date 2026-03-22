@@ -1,0 +1,59 @@
+{
+  "expo": {
+    "name": "SkillBridge",
+    "slug": "skillbridge-mobile-app",
+    "version": "1.0.0",
+    "description": "Peer-to-peer student skill-sharing platform connecting university students to teach and learn from each other",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "privacy": "public",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.skillbridge.app",
+      "jsEngine": "hermes",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "SkillBridge needs access to your camera to take profile photos.",
+        "NSPhotoLibraryUsageDescription": "SkillBridge needs access to your photo library to select profile photos.",
+        "NSMicrophoneUsageDescription": "SkillBridge needs access to your microphone for voice messages."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.skillbridge.app",
+      "jsEngine": "hermes",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "jsEngine": "hermes",
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "skillbridge",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7dfe5cc7-60b8-48a3-9620-84d457911aeb"
+      }
+    }
+  }
+}

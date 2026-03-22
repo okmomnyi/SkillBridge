@@ -1,0 +1,104 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# Environment files - NEVER COMMIT THESE
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+
+# TypeScript
+*.tsbuildinfo
+
+# Generated native folders
+/ios
+/android
+
+# Firebase - CRITICAL: Never commit credentials
+google-services.json
+GoogleService-Info.plist
+*-firebase-adminsdk-*.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase/
+.firebaserc
+
+# Service account keys and credentials
+*-service-account*.json
+*.serviceaccount.json
+credentials.json
+secrets.json
+
+# API keys and tokens
+*.apikey
+*.token
+.secrets
+
+# Test files
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__/
+coverage/
+.jest/
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.tmp
+
+# Build artifacts
+*.apk
+*.aab
+*.ipa
+build/
+*.app
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store

@@ -1,0 +1,60 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="1024" height="1024" fill="url(#bgGradient)" rx="180"/>
+  
+  <!-- Graduation Cap (Main Symbol) -->
+  <g transform="translate(512, 380)">
+    <!-- Cap board (top flat part) -->
+    <path d="M -180 -20 L 0 -80 L 180 -20 L 0 40 Z" 
+          fill="#FCD34D" 
+          stroke="#F59E0B" 
+          stroke-width="8"/>
+    
+    <!-- Cap base (bottom part) -->
+    <ellipse cx="0" cy="-20" rx="180" ry="40" 
+             fill="#FBBF24" 
+             stroke="#F59E0B" 
+             stroke-width="6"/>
+    
+    <!-- Tassel -->
+    <line x1="180" y1="-20" x2="220" y2="-60" 
+          stroke="#F59E0B" 
+          stroke-width="6"/>
+    <circle cx="220" cy="-60" r="15" fill="#F59E0B"/>
+  </g>
+  
+  <!-- Two People Exchanging (Skill Sharing) -->
+  <g transform="translate(512, 620)">
+    <!-- Left Person -->
+    <circle cx="-100" cy="-40" r="35" fill="white"/>
+    <path d="M -100 -5 L -100 80" stroke="white" stroke-width="20" stroke-linecap="round"/>
+    <path d="M -100 20 L -140 60" stroke="white" stroke-width="18" stroke-linecap="round"/>
+    <path d="M -100 20 L -60 60" stroke="white" stroke-width="18" stroke-linecap="round"/>
+    
+    <!-- Right Person -->
+    <circle cx="100" cy="-40" r="35" fill="white"/>
+    <path d="M 100 -5 L 100 80" stroke="white" stroke-width="20" stroke-linecap="round"/>
+    <path d="M 100 20 L 60 60" stroke="white" stroke-width="18" stroke-linecap="round"/>
+    <path d="M 100 20 L 140 60" stroke="white" stroke-width="18" stroke-linecap="round"/>
+    
+    <!-- Exchange arrows (connecting people) -->
+    <path d="M -50 0 L 50 0" stroke="#FCD34D" stroke-width="12" stroke-linecap="round"/>
+    <path d="M 40 -10 L 50 0 L 40 10" stroke="#FCD34D" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M -40 10 L -50 0 L -40 -10" stroke="#FCD34D" stroke-width="12" stroke-linecap="round" fill="none"/>
+  </g>
+  
+  <!-- Book/Knowledge Symbol at bottom -->
+  <g transform="translate(512, 820)">
+    <path d="M -50 -25 L -50 25 Q -50 30, -45 30 L -5 30 Q 0 30, 0 25 L 0 -25 Q 0 -30, -5 -30 L -45 -30 Q -50 -30, -50 -25 Z" 
+          fill="white" opacity="0.9"/>
+    <path d="M 50 -25 L 50 25 Q 50 30, 45 30 L 5 30 Q 0 30, 0 25 L 0 -25 Q 0 -30, 5 -30 L 45 -30 Q 50 -30, 50 -25 Z" 
+          fill="white" opacity="0.9"/>
+  </g>
+</svg>
