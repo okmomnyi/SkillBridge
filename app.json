@@ -12,7 +12,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "privacy": "public",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.skillbridge.app",
@@ -34,11 +33,11 @@
       "predictiveBackGestureEnabled": false,
       "package": "com.skillbridge.app",
       "jsEngine": "hermes",
-      "versionCode": 1,
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES"
       ]
     },
     "web": {
@@ -46,7 +45,14 @@
     },
     "jsEngine": "hermes",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow SkillBridge to access your photos to upload a profile picture.",
+          "cameraPermission": "Allow SkillBridge to access your camera."
+        }
+      ]
     ],
     "scheme": "skillbridge",
     "extra": {
